@@ -1,0 +1,36 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct  2 11:21:39 2020
+
+@author: sridhar
+"""
+
+
+import cv2
+print('selfdrivencars')
+
+video_src = 'pedestrians.avi'
+
+cap = cv2.VideoCapture(video_src)
+
+bike_cascade = cv2.CascadeClassifier('pedestrians.xml')
+
+while True:
+    ret, img = cap.read()
+	
+    
+    if (type(img) == type(None)):
+        break
+    
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    bike = bike_cascade.detectMultiScale(gray,1.3,2)
+
+    for(a,b,c,d) in bike:
+        cv2.rectangle(img,(a,b),(a+c,b+d),(0,255,210),4)
+    
+    cv2.imshow('video', img)
+    
+    if cv2.waitKey(33) == 27:
+        break
+
+cv2.destroyAllWindows()
